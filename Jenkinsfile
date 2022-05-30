@@ -1,15 +1,5 @@
 pipeline{
   agent{ label 'linux' }
-   parameters {
-  file description: 'upload private key to ansible to deploy', name: "$WORKSPACE/ansible.pem"
-}
-
-  environment{
-    BITGLASS=credentials('bitglass-key')
-    ANSIBLE_CREDS=credentials('ANSIBLE')
-    ACCESS_KEY = "${params.BITGLASS_SSH_PRIVATE_KEY}"
-  }
-  
   stages{
     stage('initial setup'){
       steps{
@@ -23,11 +13,13 @@ pipeline{
     }
     stage('Run Playbook'){
       steps{
-        sh '''
+        withCredentials([sshUserPrivateKey(credentialsId: 'bitglass-key', keyFileVariable: 'BITGLASS_KEY', usernameVariable: 'BITGLASS_USER')]) {
+           sh '''
         ansible-playbook ping.yml -i hosts \
-        --private-key=ansible.pem \
-        -e "ansible_user=ubuntu" -vvv
+        --private-key=$BITGLASS_KEY \
+        -e "ansible_user=$BITGLASS_USER" -vvv
         '''
+        }
       }
     }
   }
