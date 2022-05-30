@@ -1,19 +1,22 @@
 pipeline{
   agent{ label 'linux' }
+  parameters {
+  password defaultValue: '', name: 'BITGLASS_SSH_PRIVATE_KEY'
+}
   environment{
     BITGLASS=credentials('bitglass-key')
     ANSIBLE_CREDS=credentials('ANSIBLE')
+    ACCESS_KEY = "{params.BITGLASS_SSH_PRIVATE_KEY}"
   }
-
+  
   stages{
     stage('initial setup'){
       steps{
         sh ' ssh -V '
         sh 'ls -altr'
         sh '''
-        echo "$BITGLASS_PSW"
         touch ansible.pem
-        echo "$BITGLASS_PSW" > ansible.pem
+        echo "$ACCESS_KEY" > ansible.pem
         chmod 600 ansible.pem
         ls -altr
         '''
