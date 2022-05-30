@@ -1,8 +1,9 @@
 pipeline{
   agent{ label 'linux' }
-  parameters {
-  password defaultValue: '', name: 'BITGLASS_SSH_PRIVATE_KEY'
+   parameters {
+  file description: 'upload private key to ansible to deploy', name: 'ansible.pem'
 }
+
   environment{
     BITGLASS=credentials('bitglass-key')
     ANSIBLE_CREDS=credentials('ANSIBLE')
@@ -15,8 +16,6 @@ pipeline{
         sh ' ssh -V '
         sh 'ls -altr'
         sh '''
-        touch ansible.pem
-        echo "$ACCESS_KEY" > ansible.pem
         chmod 600 ansible.pem
         ls -altr
         '''
@@ -27,7 +26,7 @@ pipeline{
         sh '''
         ansible-playbook ping.yml -i hosts \
         --private-key=ansible.pem \
-        -e "ansible_ssh_user=$BITGLASS_USR ansible_ssh_private_key=$BITGLASS_PSW" -vvv
+        -e "ansible_user=ubuntu" -vvv
         '''
       }
     }
