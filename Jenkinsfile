@@ -1,12 +1,9 @@
 pipeline{
   agent{ label 'linux' }
   environment{
-    ANSIBLE_TOKEN=credentials('ANSIBLE_KEY')
+    BITGLASS=credentials('bitglass-key')
     ANSIBLE_CREDS=credentials('ANSIBLE')
   }
-  parameters {
-  credentials credentialType: 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey', defaultValue: '', name: 'bitglass', required: false
-}
 
   stages{
     stage('initial setup'){
@@ -25,10 +22,8 @@ pipeline{
       steps{
         sh '''
         ansible-playbook ping.yml -i hosts \
-        -e "ansible_user=ubuntu \
-        ansible_user=$ANSIBLE_CREDS_USR
-        ansible_password=$ANSIBLE_CREDS_PSW
-        " -vvv
+        --private-key=$BITGLASSS_PSW \
+        -e "ansible_user=$BITGLASS_USR" -vvv
         '''
       }
     }
