@@ -5,10 +5,6 @@ pipeline{
       steps{
         sh ' ssh -V '
         sh 'ls -altr'
-        sh '''
-        chmod 600 ansible.pem
-        ls -altr
-        '''
       }
     }
     stage('Run Playbook'){
