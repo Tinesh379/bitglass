@@ -9,8 +9,8 @@ pipeline{
         sh'ls -altr'
         echo "Copy SSH Key to Working Directory"
         echo "$ANSIBLE_CREDS_PSW>$WORKSPACE/ansible.pem"
-        echo "change permissions on SSH key"
-        sh 'chmod 600 $WORKSPACE/ansible.pem'
+        //echo "change permissions on SSH key"
+       // sh 'chmod 600 $WORKSPACE/ansible.pem'
         sh ' ssh -V '
         sh 'ls -altr'
       }
