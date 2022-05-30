@@ -8,12 +8,6 @@ pipeline{
   stages{
     stage('initial setup'){
       steps{
-        sh 'touch ansible.pem'
-        sh'ls -altr'
-        echo "Copy SSH Key to Working Directory" 
-       sh 'echo "$ANSIBLE_TOKEN>$WORKSPACE/ansible.pem" '
-       echo "change permissions on SSH key"
-       sh 'chmod 600 $WORKSPACE/ansible.pem'
         sh ' ssh -V '
         sh 'ls -altr'
       }
@@ -22,8 +16,7 @@ pipeline{
       steps{
         sh '''
         ansible-playbook ping.yml -i hosts \
-        --private-key=$BITGLASSS_PSW \
-        -e "ansible_user=$BITGLASS_USR" -vvv
+        -e "ansible_ssh_user=$BITGLASS_USR ansible_ssh_private_key=$BITGLASS_PSW" -vvv
         '''
       }
     }
