@@ -8,7 +8,7 @@ pipeline{
 }
 environment{
   PLAYBOOK = "${params.PLAYBOOK_NAME}"
-  HOSTS = "${params.ENVIRONMENT}"
+  HOSTS = "${getHostForEnvironment}"
 
 }
 
