@@ -20,7 +20,7 @@ pipeline{
       steps{
         sh '''
         ansible-playbook ping.yml -i hosts \
-        --private-key=ansible.pem \
+        --private-key=$ANSIBLE_TOKEN\
         -e "ansible_user=ubuntu" -vvv
         '''
       }
