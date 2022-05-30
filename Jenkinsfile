@@ -4,6 +4,10 @@ pipeline{
     ANSIBLE_TOKEN=credentials('ANSIBLE_KEY')
     ANSIBLE_CREDS=credentials('ANSIBLE')
   }
+  parameters {
+  credentials credentialType: 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey', defaultValue: '', name: 'bitglass', required: false
+}
+
   stages{
     stage('initial setup'){
       steps{
