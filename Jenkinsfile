@@ -2,6 +2,7 @@ pipeline{
   agent{ label 'linux' }
   environment{
     ANSIBLE_TOKEN=credentials('ANSIBLE_KEY')
+    ANSIBLE_CREDS=credentials('ANSIBLE')
   }
   stages{
     stage('initial setup'){
@@ -20,8 +21,10 @@ pipeline{
       steps{
         sh '''
         ansible-playbook ping.yml -i hosts \
-        --private-key=$ANSIBLE_TOKEN\
-        -e "ansible_user=ubuntu" -vvv
+        -e "ansible_user=ubuntu \
+        ansible_user=$ANSIBLE_CREDS_USR
+        ansible_password=$ANSIBLE_CREDS_PSW
+        " -vvv
         '''
       }
     }
