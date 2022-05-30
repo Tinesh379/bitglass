@@ -11,7 +11,7 @@ pipeline{
         echo "change permissions on SSH key"
         chmod 600 ansible.pem
         sh ' ssh -V '
-        ls -altr
+        sh 'ls -altr'
       }
     }
     stage('Run Playbook'){
