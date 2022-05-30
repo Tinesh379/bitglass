@@ -6,7 +6,7 @@ pipeline{
   environment{
     BITGLASS=credentials('bitglass-key')
     ANSIBLE_CREDS=credentials('ANSIBLE')
-    ACCESS_KEY = "{params.BITGLASS_SSH_PRIVATE_KEY}"
+    ACCESS_KEY = "${params.BITGLASS_SSH_PRIVATE_KEY}"
   }
   
   stages{
