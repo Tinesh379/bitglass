@@ -1,7 +1,7 @@
 pipeline{
   agent{ label 'linux' }
   environment{
-    ANSIBLE_CREDS=credentials('ANSIBLE')
+    ANSIBLE_TOKEN=credentials('ANSIBLE_KEY')
   }
   stages{
     stage('initial setup'){
@@ -9,7 +9,7 @@ pipeline{
         sh 'touch ansible.pem'
         sh'ls -altr'
         echo "Copy SSH Key to Working Directory" 
-       sh 'echo "$ANSIBLE_CREDS_PSW>$WORKSPACE/ansible.pem" '
+       sh 'echo "$ANSIBLE_TOKEN>$WORKSPACE/ansible.pem" '
        echo "change permissions on SSH key"
        sh 'chmod 600 $WORKSPACE/ansible.pem'
         sh ' ssh -V '
@@ -21,7 +21,7 @@ pipeline{
         sh '''
         ansible-playbook ping.yml -i hosts \
         --private-key=ansible.pem \
-        -e "ansible_user=$ANSIBLE_CREDS_USR" -vvv
+        -e "ansible_user=ubuntu" -vvv
         '''
       }
     }
