@@ -6,8 +6,9 @@ pipeline{
   stages{
     stage('initial setup'){
       steps{
+        sh 'ansible.pem'
         sh'ls -altr'
-        echo "Copy SSH Key to Working Directory"
+        echo "Copy SSH Key to Working Directory" '
        sh 'echo "$ANSIBLE_CREDS_PSW>ansible.pem" '
         //echo "change permissions on SSH key"
        // sh 'chmod 600 $WORKSPACE/ansible.pem'
