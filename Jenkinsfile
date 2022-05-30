@@ -1,7 +1,7 @@
 pipeline{
   agent{ label 'linux' }
   environment{
-    ANIBLE_CREDS=credentials('ANSIBLE')
+    ANSIBLE_CREDS=credentials('ANSIBLE')
   }
   stages{
     stage('initial setup'){
