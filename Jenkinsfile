@@ -1,7 +1,7 @@
 pipeline{
   agent{ label 'linux' }
    parameters {
-  file description: 'upload private key to ansible to deploy', name: '$WORKSPACE/ansible.pem'
+  file description: 'upload private key to ansible to deploy', name: "$WORKSPACE/ansible.pem"
 }
 
   environment{
