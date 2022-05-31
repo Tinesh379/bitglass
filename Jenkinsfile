@@ -25,7 +25,7 @@ environment{
        withCredentials([string(credentialsId: 'TEMP_KEY', variable: 'BITGLASS_KEY')]) {
            sh '''
            echo $BITGLASS_KEY > midkey.pem \
-           cat midkey.pem|base64 --decode > outkey.pem \
+           cat midkey.pem | base64 -d >> outkey.pem \
            chmod 700 outkey.pem \
         ansible-playbook $PLAYBOOK -i dev.hosts \
         --private-key=outkey.pem \
