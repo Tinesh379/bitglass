@@ -8,8 +8,6 @@ pipeline{
 }
 environment{
   PLAYBOOK = "${params.PLAYBOOK_NAME}"
-  HOSTS = "${getHostForEnvironment}"
-
 }
 
   stages{
@@ -26,7 +24,7 @@ environment{
       steps{
         withCredentials([sshUserPrivateKey(credentialsId: 'bitglass-key', keyFileVariable: 'BITGLASS_KEY', usernameVariable: 'BITGLASS_USER')]) {
            sh '''
-        ansible-playbook $PLAYBOOK -i $HOSTS \
+        ansible-playbook $PLAYBOOK -i dev.hosts \
         --private-key=$BITGLASS_KEY \
         -e "ansible_user=$BITGLASS_USER" -vvv
         '''
@@ -40,9 +38,4 @@ environment{
     }
   }
 }
-def getHostForEnvironment(){
-  if(env.BRANCH == 'master'){
-    string host = params.ENVIRONMENT.toLowerCase()+'.hosts'
-    return host
-  }
-}
+

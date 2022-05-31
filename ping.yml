@@ -1,6 +1,6 @@
 ---
 - name: test connection
-  hosts: [DEV]
+  hosts: DEV
   gather_facts: false
   become: yes
   tasks:
