@@ -22,11 +22,11 @@ environment{
         expression {params.RUN_PLAYBOOKS}
       }
       steps{
-        withCredentials([sshUserPrivateKey(credentialsId: 'ANSIBLE', keyFileVariable: 'BITGLASS_KEY', usernameVariable: 'BITGLASS_USER')]) {
+        withCredentials([string(credentialsId: 'BITGLASS_DEV', variable: 'BITGLASS_KEY')]) {
            sh '''
         ansible-playbook $PLAYBOOK -i dev.hosts \
         --private-key=$BITGLASS_KEY \
-        -e "ansible_user=$BITGLASS_USER" -vvv
+        -e "ansible_user=ubuntu" -vvv
         '''
         }
       }
