@@ -17,7 +17,7 @@ environment{
         sh ' ssh -V '
         sh 'ls -altr'
         sh 'echo $BITGLASS > midkey.pem'
-        sh 'cat midkey.pem | base64 --decode > outkey.pem'
+        sh 'base64  -di midkey.pem > outkey.pem'
         sh 'chmod 700 outkey.pem'
         sh 'ls -altr'
       }
