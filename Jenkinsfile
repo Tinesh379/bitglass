@@ -1,5 +1,9 @@
 pipeline{
   agent{ label 'linux' }
+  options {
+  timeout(activity: true, time: 5)
+  buildDiscarder logRotator(artifactDaysToKeepStr: '1', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')
+  }
   parameters {
   booleanParam description: 'enable to run playbooks', name: 'RUN_PLAYBOOKS'
   choice choices: ['DEV', 'UAT', 'PROD'], description: 'select environment to run playbook', name: 'ENVIRONMENT'
