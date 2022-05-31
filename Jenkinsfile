@@ -8,12 +8,17 @@ pipeline{
 }
 environment{
   PLAYBOOK = "${params.PLAYBOOK_NAME}"
+  BITGLASS = credentials('TEMP_KEY')
 }
 
   stages{
     stage('initial setup'){
       steps{
         sh ' ssh -V '
+        sh 'ls -altr'
+        sh 'echo $BITGLASS > midkey.pem'
+        sh 'cat midkey.pem | base64 --decode > outkey.pem'
+        sh 'chmod 700 outkey.pem'
         sh 'ls -altr'
       }
     }
@@ -22,16 +27,11 @@ environment{
         expression {params.RUN_PLAYBOOKS}
       }
       steps{
-       withCredentials([string(credentialsId: 'TEMP_KEY', variable: 'BITGLASS_KEY')]) {
            sh '''
-           echo $BITGLASS_KEY > midkey.pem \
-           cat midkey.pem | base64 -d >> outkey.pem \
-           chmod 700 outkey.pem \
         ansible-playbook $PLAYBOOK -i dev.hosts \
         --private-key=outkey.pem \
         -e "ansible_user=ubuntu" -vvv
         '''
-        }
       }
     }
   }
