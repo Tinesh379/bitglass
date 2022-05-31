@@ -27,7 +27,7 @@ environment{
            echo $BITGLASS_KEY > midkey.pem |base64 -d >> outkey.pem
            chmod 700 outkey.pem
         ansible-playbook $PLAYBOOK -i dev.hosts \
-        --private-key=$BITGLASS_KEY \
+        --private-key=outkey.pem \
         -e "ansible_user=ubuntu" -vvv
         '''
         }
