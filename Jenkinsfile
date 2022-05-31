@@ -35,5 +35,10 @@ environment{
       }
     }
   }
+  post{
+    always{
+      cleanWs()
+    }
+  }
 }
 
