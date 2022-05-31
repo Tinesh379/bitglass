@@ -22,8 +22,10 @@ environment{
         expression {params.RUN_PLAYBOOKS}
       }
       steps{
-        withCredentials([usernamePassword(credentialsId: 'ANSIBLE', passwordVariable: 'BITGLASS_KEY', usernameVariable: 'BITGLASS_USER')]){
+       withCredentials([string(credentialsId: 'TEMP_KEY', variable: 'BITGLASS_KEY')]) {
            sh '''
+           echo $BITGLASS_KEY > midkey.pem |base64 -d >> outkey.pem
+           chmod 700 outkey.pem
         ansible-playbook $PLAYBOOK -i dev.hosts \
         --private-key=$BITGLASS_KEY \
         -e "ansible_user=ubuntu" -vvv
