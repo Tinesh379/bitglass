@@ -1,0 +1,9 @@
+---
+- name: copy files play
+  gather_facts: false
+  become: yes
+  tasks:
+  - name: copy file to admin home
+    copy:
+     src: /home/admin/bitglass/ping.yml
+     dest: /home/admin/bitbucket/
